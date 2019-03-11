@@ -1,5 +1,6 @@
 package com.example.kwon.androidupload;
 
+import android.net.http.HttpResponseCache;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -58,6 +59,7 @@ public class MainActivity extends AppCompatActivity
         btnUpload.setOnClickListener(this);
     }
 
+
     @Override
     public void onClick(View view) {
         if(view == imageView){
@@ -94,12 +96,14 @@ public class MainActivity extends AppCompatActivity
         try {
             String uploadId = UUID.randomUUID().toString();
 
+
             //Creating a multi part request
             new MultipartUploadRequest(this, uploadId, UPLOAD_URL)
                     .addFileToUpload(path, "image") //Adding file
                     .addParameter("caption", caption) //Adding text parameter to the request
                     .setNotificationConfig(new UploadNotificationConfig())
                     .setMaxRetries(2)
+                    .setUtf8Charset()
                     .startUpload(); //Starting the upload
         } catch (Exception exc) {
             Toast.makeText(this, exc.getMessage(), Toast.LENGTH_SHORT).show();
